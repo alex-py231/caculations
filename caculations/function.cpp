@@ -1506,3 +1506,101 @@ double diff_2_c(double* x, double* y, int i)
 	double dy = diff[2] - diff[0];
 	return dy / h;
 }
+double Gauss(double(*f)(double),double* W, double* z, int N, int M, double a, double b)
+{
+	double h = (b - a) / N;
+	double sum = 0;
+	double x;
+	for (int i = 0; i < N; i++)
+	{
+		x = a + (i + 0.5) * h;
+		for (int j = 0; j < M; j++)
+		{
+			sum += W[j] * f(x + 0.5 * h * z[j]);
+		}
+	}
+	return 0.5 * h * sum;
+}
+double Gauss_2(double(*f)(double,double),double beta, int N, int M, double a, double b,double c,double d)
+{
+	double sum = 0;
+	double h_x = (b - a) / N;
+	double h_y = (d - c) / M;
+	double x, y;
+	double B = beta;
+	for (int i = 0; i < N; i++)
+	{
+		x = a + (i + 0.5) * h_x;
+		for (int j = 0; j < M; j++)
+		{
+			y = c + (j + 0.5) * h_y;
+			sum += f(x - 0.5 * B * h_x, y + 0.5 * B * h_y) + f(x + 0.5 * B * h_x, y + 0.5 * B * h_y) + f(x + 0.5 * B * h_x, y - 0.5 * B * h_y) + f(x - 0.5 * B * h_x, y - 0.5 * B * h_y);
+		}
+	}
+	return 0.25 * h_x * h_y * sum;
+}
+double S_2(double(*f)(double, double), double a, double b, double c, double d)
+{
+	double S = 0;
+	double h1 = 0.0001;
+	double h2 = 0.0001;
+	int n = (b - a) / h1;
+	int m = (c - d) / h2;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			S += f(a + h1 * i, c + h2 * j) * h1 * h2;
+		}
+	}
+	return S;
+}
+void M_Euler_explicit(double (*f)(double, double), double h, double x_0, double y_0,double *res_x,double*res_y,int n)
+{
+	res_x[0] = x_0;
+	res_y[0] = y_0;
+	for (int i = 1; i < n; i++)
+	{
+		res_x[i] = res_x[i-1] + h;
+		res_y[i] = res_y[i - 1] + h * f(res_x[i - 1], res_y[i - 1]);
+	}
+}
+void M_Euler_implicit(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n)
+{
+	res_x[0] = x_0;
+	res_y[0] = y_0;
+	for (int i = 1; i < n; i++)
+	{
+		res_x[i] = res_x[i - 1] + h;
+		res_y[i] = res_y[i - 1] + h * f(res_x[i], res_y[i - 1]);
+	}
+}
+void M_Euler_improved(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n)
+{
+	res_x[0] = x_0;
+	res_y[0] = y_0;
+	for (int i = 1; i < n; i++)
+	{
+		res_x[i] = res_x[i - 1] + h;
+		res_y[i] = res_y[i - 1] + h * f(res_x[i], res_y[i - 1]);
+		res_y[i] = res_y[i - 1] + h * (f(res_x[i - 1], res_y[i - 1]) + f(res_x[i], res_y[i]) / 2);
+	}
+}
+void M_Runge_Kutta_4(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n)
+{
+
+	{
+		res_x[0] = x_0;
+		res_y[0] = y_0;
+		double K_0, K_1, K_2, K_3;
+		for (int i = 1; i < n; i++)
+		{
+			res_x[i] = res_x[i - 1] + h;
+			K_0 = f(res_x[i-1], res_y[i-1]);
+			K_1 = f(res_x[i - 1] + h / 2, res_y[i - 1] + h / 2 * K_0);
+			K_2 = f(res_x[i - 1] + h / 2, res_y[i - 1] + h / 2 * K_1);
+			K_3 = f(res_x[i - 1] + h, res_y[i - 1] + h * K_2);
+			res_y[i] = res_y[i - 1] + h * (K_0 + 2 * K_1 + 2 * K_2 + K_3);
+		}
+	}
+}
