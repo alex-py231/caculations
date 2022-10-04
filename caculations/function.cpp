@@ -1583,12 +1583,11 @@ void M_Euler_improved(double (*f)(double, double), double h, double x_0, double 
 	{
 		res_x[i] = res_x[i - 1] + h;
 		res_y[i] = res_y[i - 1] + h * f(res_x[i], res_y[i - 1]);
-		res_y[i] = res_y[i - 1] + h * (f(res_x[i - 1], res_y[i - 1]) + f(res_x[i], res_y[i]) / 2);
+		res_y[i] = res_y[i - 1] + h * (f(res_x[i - 1], res_y[i - 1]) + f(res_x[i], res_y[i])) / 2;
 	}
 }
 void M_Runge_Kutta_4(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n)
 {
-
 	{
 		res_x[0] = x_0;
 		res_y[0] = y_0;
@@ -1600,7 +1599,36 @@ void M_Runge_Kutta_4(double (*f)(double, double), double h, double x_0, double y
 			K_1 = f(res_x[i - 1] + h / 2, res_y[i - 1] + h / 2 * K_0);
 			K_2 = f(res_x[i - 1] + h / 2, res_y[i - 1] + h / 2 * K_1);
 			K_3 = f(res_x[i - 1] + h, res_y[i - 1] + h * K_2);
-			res_y[i] = res_y[i - 1] + h * (K_0 + 2 * K_1 + 2 * K_2 + K_3);
+			res_y[i] = res_y[i - 1] + h * (K_0 + 2 * K_1 + 2 * K_2 + K_3)/6.;
+		}
+	}
+}
+void adams(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n)
+{
+	res_x[0] = x_0;
+	res_y[0] = y_0;
+	for (int i = 0; i < n; i++)
+	{
+		res_x[i + 1] = res_x[i] + h;
+		if (i == 0)
+		{
+			res_y[i + 1] = res_y[i] + h*f(res_x[i], res_y[i]);
+		}
+		else if (i == 1)
+		{
+			res_y[i + 1] = res_y[i] + h * (3. / 2. * f(res_x[i], res_y[i]) - 1. / 2. * f(res_x[i - 1], res_y[i - 1]));
+		}
+		else if (i == 2)
+		{
+			res_y[i + 1] = res_y[i] + h * (23. / 12. * f(res_x[i], res_y[i]) - 4. / 3. * f(res_x[i - 1], res_y[i - 1]) + 5. / 12. * f(res_x[i - 2], res_y[i - 2]));
+		}
+		else if (i == 3)
+		{
+			res_y[i + 1] = res_y[i] + h * (55. / 24. * f(res_x[i], res_y[i]) - 59. / 24. * f(res_x[i - 1], res_y[i - 1]) + 37. / 24. * f(res_x[i - 2], res_y[i - 2]) - 3. / 8. * f(res_x[i - 3], res_y[i - 3]));
+		}
+		else
+		{
+			res_y[i + 1] = res_y[i] + h * (1901. / 720. * f(res_x[i], res_y[i]) - 1387. / 360. * f(res_x[i - 1], res_y[i - 1]) + 109. / 30. * f(res_x[i - 2], res_y[i - 2]) - 637. / 360. * f(res_x[i - 3], res_y[i - 3]) + 251. / 720. * f(res_x[i - 4], res_y[i - 4]));
 		}
 	}
 }

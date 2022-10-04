@@ -39,6 +39,7 @@ double diff_2_l(double* x, double* y, int i);
 double diff_2_r(double* x, double* y, int i);
 double diff_2_c(double* x, double* y, int i);
 double Gauss_2(double(*f)(double, double), double beta, int N, int M, double a, double b, double c, double d);
+void adams(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n);
 void M_Runge_Kutta_4(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n);
 void M_Euler_improved(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n);
 void M_Euler_explicit(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n);
