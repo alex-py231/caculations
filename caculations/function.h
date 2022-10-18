@@ -45,3 +45,4 @@ void M_Euler_improved(double (*f)(double, double), double h, double x_0, double 
 void M_Euler_explicit(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n);
 void M_Euler_implicit(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n);
 double S_2(double(*f)(double, double), double a, double b, double c, double d);
+void ABM(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n);

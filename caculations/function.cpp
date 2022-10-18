@@ -1632,3 +1632,60 @@ void adams(double (*f)(double, double), double h, double x_0, double y_0, double
 		}
 	}
 }
+void ABM(double (*f)(double, double), double h, double x_0, double y_0, double* res_x, double* res_y, int n)
+{
+	/*res_x[0] = x_0;
+	res_y[0] = y_0;
+	double y_;
+	for (int i = 0; i < n; i++)
+	{
+		res_x[i + 1] = res_x[i] + h;
+		if (i == 0)
+		{
+			res_y[i + 1] = res_y[i] + h * f(res_x[i], res_y[i]);
+		}
+		else if (i == 1)
+		{
+			res_y[i + 1] = res_y[i] + h * (3. / 2. * f(res_x[i], res_y[i]) - 1. / 2. * f(res_x[i - 1], res_y[i - 1]));
+		}
+		else if (i == 2)
+		{
+			res_y[i + 1] = res_y[i] + h * (23. / 12. * f(res_x[i], res_y[i]) - 4. / 3. * f(res_x[i - 1], res_y[i - 1]) + 5. / 12. * f(res_x[i - 2], res_y[i - 2]));
+		}
+		else if (i == 3)
+		{
+			res_y[i + 1] = res_y[i] + h * (55. / 24. * f(res_x[i], res_y[i]) - 59. / 24. * f(res_x[i - 1], res_y[i - 1]) + 37. / 24. * f(res_x[i - 2], res_y[i - 2]) - 3. / 8. * f(res_x[i - 3], res_y[i - 3]));
+		}
+		else
+		{
+			y_ = res_y[i] + h * (55 * f(res_x[i - 1], res_y[i - 1]) - 59 * f(res_x[i - 2], res_y[i - 2]) + 37 * f(res_x[i - 3], res_y[i - 3]) - 9 * f(res_x[i - 4], res_y[i - 4])) / 24.;
+			res_y[i + 1] = res_y[i] + h * (9. * y_ + 19 * f(res_x[i -1], res_y[i -1]) - 5 * f(res_x[i - 2], res_y[i - 2]) + 9 * f(res_x[i - 3], res_y[i - 3])) / 24.;
+		}
+	}*/
+	res_x[0] = x_0;
+	res_y[0] = y_0;
+	for (int i = 0; i < n; i++)
+	{
+		res_x[i + 1] = res_x[i] + h;
+		if (i == 0)
+		{
+			res_y[i + 1] = res_y[i] + h * f(res_x[i], res_y[i]);
+		}
+		else if (i == 1)
+		{
+			res_y[i + 1] = res_y[i] + h * (3. / 2. * f(res_x[i], res_y[i]) - 1. / 2. * f(res_x[i - 1], res_y[i - 1]));
+		}
+		else if (i == 2)
+		{
+			res_y[i + 1] = res_y[i] + h * (23. / 12. * f(res_x[i], res_y[i]) - 4. / 3. * f(res_x[i - 1], res_y[i - 1]) + 5. / 12. * f(res_x[i - 2], res_y[i - 2]));
+		}
+		else if (i == 3)
+		{
+			res_y[i + 1] = res_y[i] + h * (55. / 24. * f(res_x[i], res_y[i]) - 59. / 24. * f(res_x[i - 1], res_y[i - 1]) + 37. / 24. * f(res_x[i - 2], res_y[i - 2]) - 3. / 8. * f(res_x[i - 3], res_y[i - 3]));
+		}
+		else
+		{
+			res_y[i + 1] = res_y[i] + h * (1901. / 720. * f(res_x[i], res_y[i]) - 1387. / 360. * f(res_x[i - 1], res_y[i - 1]) + 109. / 30. * f(res_x[i - 2], res_y[i - 2]) - 637. / 360. * f(res_x[i - 3], res_y[i - 3]) + 251. / 720. * f(res_x[i - 4], res_y[i - 4]));
+		}
+	}
+}
