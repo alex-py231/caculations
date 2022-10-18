@@ -32,6 +32,7 @@ int main()
 	///*adams(f_2, 0.1, 0, 0, res_x, res_y, n);*/
 	///*ABM(f_2, 0.1, 0, 0, res_x, res_y, n);*/
 	f_1(res_x, res_y, n);
+
 	return 0;
 }
 //int n = 5;
