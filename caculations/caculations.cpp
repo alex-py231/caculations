@@ -22,16 +22,15 @@ int main()
 	int n = 11;
 	double* res_x = new double[n];
 	double* res_y = new double[n];
-	/*M_Euler_explicit(f_2, 0.1, 0, 0, res_x, res_y, n);
-	*/
+	M_Euler_explicit(f_2, 0.1, 0, 0, res_x, res_y, n);
+	
 	/*M_Euler_implicit(f_2, 0.1, 0, 0, res_x, res_y, n);
 	*/
 	/*M_Euler_improved(f_2, 0.1, 0, 0, res_x, res_y, n);
 	*/
-	/*M_Runge_Kutta_4(f_2, 0.1, 0, 0, res_x, res_y, n);*/
-	//adams(f_2, 0.1, 0, 0, res_x, res_y, n);
-	//f_1(res_x, res_y, n);
-	ABM(f_2, 0.1, 0, 0, res_x, res_y, n);
+	///*M_Runge_Kutta_4(f_2, 0.1, 0, 0, res_x, res_y, n);*/
+	///*adams(f_2, 0.1, 0, 0, res_x, res_y, n);*/
+	///*ABM(f_2, 0.1, 0, 0, res_x, res_y, n);*/
 	f_1(res_x, res_y, n);
 	return 0;
 }
